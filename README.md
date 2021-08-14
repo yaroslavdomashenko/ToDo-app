@@ -19,7 +19,7 @@
 - POST .../api/todo/create{task}
 - POST .../api/todo/complete/{id}
 - PUT .../api/todo/update/{id}
--DELETE .../api/todo/delete/{id}
+- DELETE .../api/todo/delete/{id}
 ---
 
 #### Responses body
