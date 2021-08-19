@@ -32,10 +32,7 @@ namespace WebAPI.Services.Services
         public async Task<List<TodoTask>> GetAll(string username)
         {
             var user = await _context.Accounts.FirstOrDefaultAsync(obj => obj.Username.Equals(username.ToLower()));
-
             var list = await _context.TodoTasks.Where(obj => obj.Account.Id == user.Id).OrderBy(o=> o.Status).ToListAsync();
-            //var list = await _context.TodoTasks.Include(c => c.Account).Where(obj => obj.Account.Id == user.Id).ToListAsync();
-
             return list;
         }
 

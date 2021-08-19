@@ -10,8 +10,11 @@ using WebAPI.Services.Interfaces;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/authorization")]
+    /// <summary>
+    /// Authorization controller /authorization
+    /// </summary>
     [ApiController]
+    [Route("api/authorization")]
     public class AuthController : ControllerBase
     {
         private readonly IAccountService _accountService;
@@ -20,8 +23,25 @@ namespace WebAPI.Controllers
             _accountService = accountService;
         }
 
+        /// <summary>
+        /// Registers some user in database
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST /register
+        ///     {
+        ///        "username": "login",
+        ///        "password": "password",
+        ///     }
+        ///
+        /// </remarks>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost("register")]
-        public async Task<IActionResult> Register(AccountRegistration request)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<ControllerResponse<bool>>> Register(AccountRegistration request)
         {
             ControllerResponse<bool> response = new ControllerResponse<bool>();
             var service = await _accountService.Register(request);
@@ -38,9 +58,25 @@ namespace WebAPI.Controllers
             return Ok(response);
         }
 
-        
+        /// <summary>
+        /// Returns JWT token
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST /register
+        ///     {
+        ///        "username": "login",
+        ///        "password": "password",
+        ///     }
+        ///
+        /// </remarks>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost("login")]
-        public async Task<IActionResult> Login(AccountLogIn request)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<ControllerResponse<string>>> Login(AccountLogIn request)
         {
             ControllerResponse<string> response = new ControllerResponse<string>();
             var service = await _accountService.Login(request);
