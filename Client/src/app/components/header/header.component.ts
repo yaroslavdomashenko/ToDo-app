@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { global } from '../common/global';
+
 
 @Component({
   selector: 'app-header',
@@ -6,11 +8,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  isLoggined: boolean = false;
+  isLoggined:boolean = false;
 
   constructor() { }
 
   ngOnInit(): void {
+    this.isLoggined = global.isLoggined;
   }
+
+
 
 }

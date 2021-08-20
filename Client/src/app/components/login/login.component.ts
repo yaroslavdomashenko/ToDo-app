@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Router} from "@angular/router"
+import { Component, OnInit, Output } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
+import { global } from "../common/global";
 
 @Component({
   selector: 'app-login',
@@ -8,17 +11,33 @@ import { Component, OnInit } from '@angular/core';
 export class LoginComponent implements OnInit {
   username:string = "";
   password:string = "";
-
-  constructor() { }
+  
+  constructor(private authService:AuthService, private router:Router) { }
 
   ngOnInit(): void {
   }
 
   onSubmit(): void{
-    console.log("Username: " + this.username + "\nPassword: " + this.password);
+    const newModel = {
+      username: this.username,
+      password: this.password
+    };
+
+    this.authService.Login(newModel).subscribe(
+      (data) => this.AuthUser(data.data),
+      (error) => alert("Wrong password")
+    );
+    
+    global.isLoggined = !global.isLoggined;
+    console.log(global.isLoggined);
 
     this.password = '';
     this.username = '';
+  }
+
+  private AuthUser(token:string): void{
+    localStorage.setItem("token", token);
+    this.router.navigate(['/']);
   }
 
 }

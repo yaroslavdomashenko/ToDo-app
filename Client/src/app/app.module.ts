@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import {Routes, RouterModule} from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http'
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -12,7 +13,7 @@ import { LogonComponent } from './components/logon/logon.component';
 const appRoutes: Routes = [
   { path: '', component: HomeComponent},
   { path: 'login', component: LoginComponent },
-  { path: 'logon', component: LogonComponent }
+  { path: 'logon', component: LogonComponent },
 ]
 
 @NgModule({
@@ -21,12 +22,13 @@ const appRoutes: Routes = [
     HeaderComponent,
     HomeComponent,
     LoginComponent,
-    LogonComponent
+    LogonComponent,
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(appRoutes),
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
