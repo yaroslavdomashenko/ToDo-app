@@ -1,0 +1,18 @@
+<div class="login-form">
+
+    <form (ngSubmit)="onSubmit()">
+        <h2 class="text-center">Log in</h2>       
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Username" required="required" [(ngModel)]="username" name="username">
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" placeholder="Password" required="required" [(ngModel)]="password" name="password">
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn">Log in</button>
+        </div>
+    </form>
+    <p class="text-center"><a routerLink="/logon">Create an Account</a></p>
+    
+
+</div>

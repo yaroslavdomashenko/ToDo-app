@@ -1,0 +1,22 @@
+<div class="login-form">
+
+    <form (ngSubmit)="onSubmit()">
+        <h2 class="text-center">Registration</h2>       
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Username" required="required" [(ngModel)]="username" name="username">
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" placeholder="Password" required="required" [(ngModel)]="password" name="password">
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" placeholder="Confirm password" required="required" [(ngModel)]="confirmPassword" name="confirmPassword">
+            <span ></span>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn">Log on</button>
+        </div>
+    </form>
+    <p class="text-center"><a routerLink='/login'>Already have an account?</a></p>
+    
+
+</div>

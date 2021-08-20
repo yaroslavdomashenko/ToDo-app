@@ -1,0 +1,10 @@
+<nav class="navbar navbar-expand-lg bg">
+    <a class="title-link" routerLink="">Simple to-do</a>
+
+    <a *ngIf="isLoggined" class="btn btn-outline-light" routerLink="tasks">Tasks</a>
+    <a *ngIf="isLoggined" class="btn btn-outline-light" routerLink="tasks">Settings</a>
+    <a *ngIf="isLoggined" class="btn btn-outline-light" routerLink="tasks">Log out</a>
+
+    <a *ngIf="!isLoggined" class="btn btn-outline-light" routerLink="login">Log in</a>
+    <a *ngIf="!isLoggined" class="btn btn-outline-light" routerLink="logon">Log on</a>
+</nav>
