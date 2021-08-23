@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
 
   private AuthUser(token:string): void{
     localStorage.setItem("token", token);
-    this.router.navigate(['/']);
+    document.location.href = "/";
   }
 
 }

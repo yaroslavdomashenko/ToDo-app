@@ -1,10 +1,10 @@
-<div class="task">
+<div class="task" [ngClass]="{done : task?.status}" >
     <div class="task-left">
-      <h2>Task</h2>
+      <h2>{{ task?.text }}</h2>
     </div>
     <div class="task-left">
       <button type="button" class="btn btn-warning">Update</button>
       <button type="button" class="btn btn-danger">Delete</button>
-      <button type="button" class="btn btn-success" (click)="onDone()" >Done</button>
+      <button type="button" class="btn btn-success" (click)="doneTask()" >Done</button>
     </div>
 </div>

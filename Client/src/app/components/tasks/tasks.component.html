@@ -1,6 +1,10 @@
 <div class="wrapper">
 
-  <app-task-item></app-task-item>
-  <app-task-item></app-task-item>
-  
+  <app-task-item
+    *ngFor="let item of tasks"
+    [task]="item"
+    (onDelete)="deteleTask(item)"
+    (onDoneTask)="doneTask(item)"
+    ></app-task-item>
+
 </div>
