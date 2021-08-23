@@ -44,17 +44,17 @@ namespace WebAPI.Controllers
         public async Task<ActionResult<ControllerResponse<bool>>> Register(AccountRegistration request)
         {
             ControllerResponse<bool> response = new ControllerResponse<bool>();
-            var service = await _accountService.Register(request);
+            var result = await _accountService.Register(request);
 
-            if (!service.Status)
+            if (!result)
             {
                 response.Data = false;
-                response.Message = service.Message;
+                response.Message = "Registration error";
                 return BadRequest(response);
             }
 
             response.Data = true;
-            response.Message = service.Message;
+            response.Message = "Registered";
             return Ok(response);
         }
 
@@ -79,17 +79,17 @@ namespace WebAPI.Controllers
         public async Task<ActionResult<ControllerResponse<string>>> Login(AccountLogIn request)
         {
             ControllerResponse<string> response = new ControllerResponse<string>();
-            var service = await _accountService.Login(request);
+            var result = await _accountService.Login(request);
 
-            if (!service.Status)
+            if (result == null)
             {
                 response.Data = null;
-                response.Message = service.Message;
+                response.Message = "Wrong password";
                 return BadRequest(response);
             }
 
-            response.Data = service.Data;
-            response.Message = service.Message;
+            response.Data = result;
+            response.Message = "Loggined";
             return Ok(response);
         }
     }

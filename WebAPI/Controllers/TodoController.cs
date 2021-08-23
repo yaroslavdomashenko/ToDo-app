@@ -32,19 +32,13 @@ namespace WebAPI.Controllers
         [HttpGet("task/{id}")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ControllerResponse<TodoTask>>> Get(int id)
+        public async Task<ActionResult<TodoTask>> Get(int id)
         {
-            ControllerResponse<TodoTask> response = new ControllerResponse<TodoTask>();
+            var task = await _todoService.Get(User.Identity.Name, id);
 
-            var service = await _todoService.Get(User.Identity.Name, id);
-            if(service == null){
-                response.Message = "Task didn't find";
-                return NotFound(response);
-            }
-
-            response.Data = service;
-            response.Message = "Success";
-            return Ok(response);
+            if (task == null) 
+                return NotFound();
+            return Ok(task);
         }
 
         /// <summary>
@@ -55,14 +49,9 @@ namespace WebAPI.Controllers
         [Authorize]
         [HttpGet("tasks")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<ActionResult<ControllerResponse<TodoTask>>> GetAll()
+        public async Task<ActionResult<List<TodoTask>>> GetAll()
         {
-            ControllerResponse<List<TodoTask>> response = new ControllerResponse<List<TodoTask>>();
-            var service = await _todoService.GetAll(User.Identity.Name);
-
-            response.Message = "Success";
-            response.Data = service;
-            return Ok(response);
+            return Ok(await _todoService.GetAll(User.Identity.Name));
         }
 
         /// <summary>
@@ -76,25 +65,14 @@ namespace WebAPI.Controllers
         [HttpPost("create/")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<ControllerResponse<TodoTask>>> Create(string task)
+        public async Task<ActionResult<TodoTask>> Create(string text)
         {
-            ControllerResponse<TodoTask> response = new ControllerResponse<TodoTask>();
-            if(task == null)
-            {
-                response.Message = "Task is empty";
-                return BadRequest(response);
-            }
+            if (text == null) return BadRequest();
 
-            var service = await _todoService.Create(User.Identity.Name, task);
-            if(service == null)
-            {
-                response.Message = "Error";
-                return BadRequest(response);
-            }
+            var createdTask = await _todoService.Create(User.Identity.Name, text);
+            if (createdTask == null) return BadRequest();
 
-            response.Message = "Task has been created";
-            response.Data = service;
-            return Ok(response);
+            return Ok(createdTask);
         }
 
         /// <summary>
@@ -108,20 +86,13 @@ namespace WebAPI.Controllers
         [HttpPost("complete/{id}")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ControllerResponse<TodoTask>>> Create(int id)
+        public async Task<ActionResult<ControllerResponse<TodoTask>>> Complete(int id)
         {
-            ControllerResponse<TodoTask> response = new ControllerResponse<TodoTask>();
-            var service = await _todoService.Complete(User.Identity.Name, id);
+            var task = await _todoService.Complete(User.Identity.Name, id);
+            if (task == null) 
+                return NotFound();
 
-            if(service == null)
-            {
-                response.Message = "Task is not found";
-                return NotFound(response);
-            }
-
-            response.Data = service;
-            response.Message = "Success";
-            return Ok(response);
+            return Ok(task);
         }
 
         /// <summary>
@@ -136,20 +107,13 @@ namespace WebAPI.Controllers
         [HttpPut("update/{id}")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ControllerResponse<TodoTask>>> Update(int id, string task)
+        public async Task<ActionResult<TodoTask>> Update(int id, string text)
         {
-            ControllerResponse<TodoTask> response = new ControllerResponse<TodoTask>();
-            var service = await _todoService.Update(User.Identity.Name, id, task);
+            var task = await _todoService.Update(User.Identity.Name, id, text);
+            if (task == null) 
+                return NotFound();
 
-            if (service == null)
-            {
-                response.Message = "Task is not found";
-                return NotFound(response);
-            }
-
-            response.Data = service;
-            response.Message = "Task has been updated";
-            return Ok(response);
+            return Ok(task);
         }
 
         /// <summary>
@@ -163,20 +127,13 @@ namespace WebAPI.Controllers
         [HttpDelete("delete/{id}")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ControllerResponse<TodoTask>>> Delete(int id)
+        public async Task<ActionResult<TodoTask>> Delete(int id)
         {
-            ControllerResponse<TodoTask> response = new ControllerResponse<TodoTask>();
-            var service = await _todoService.Delete(User.Identity.Name, id);
+            var result = await _todoService.Delete(User.Identity.Name, id);
 
-            if(service == null)
-            {
-                response.Message = "Task is not found";
-                return NotFound(response);
-            }
+            if (result == null) return NotFound();
 
-            response.Data = service;
-            response.Message = "Success";
-            return Ok(response);
+            return Ok(result);
         }
     }
 }

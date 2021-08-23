@@ -25,51 +25,27 @@ namespace WebAPI.Services.Services
         }
 
 
-        public async Task<ServiceResponse<string>> Login(AccountLogIn request)
+        public async Task<string> Login(AccountLogIn request)
         {
-            ServiceResponse<string> response = new ServiceResponse<string>();
+            string token;
             var user = await _context.Accounts.FirstOrDefaultAsync(x => x.Username.ToLower().Equals(request.Username.ToLower()));
 
-            if (user == null)
-            {
-                response.Message = "Log in error";
-                response.Status = false;
-            }
-            else if (!VerifyPassswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
-            {
-                response.Message = "Log in error";
-                response.Status = false;
-            }
+            if (user == null) return null;
+            else if (!VerifyPassswordHash(request.Password, user.PasswordHash, user.PasswordSalt)) return null;
             else
             {
-                var token = CreateToken(user);
-                if (token == null)
-                {
-                    response.Message = "Log in error";
-                    response.Status = false;
-                }
-                else
-                {
-                    response.Data = token;
-                    response.Message = "Loggined!";
-                }
+                token = CreateToken(user);
+                if (token == null) return null;
             }
 
-            return response;
+            return token;
         }
 
-        public async Task<ServiceResponse<string>> Register(AccountRegistration request)
+        public async Task<bool> Register(AccountRegistration request)
         {
-            ServiceResponse<string> response = new ServiceResponse<string>();
             Account user = new Account();
 
-            if (await UserExists(request.Username))
-            {
-                response.Status = false;
-                response.Message = "User already exitst";
-                return response;
-            }
-
+            if (await UserExists(request.Username)) return false;
             CreateHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
             try
@@ -80,15 +56,13 @@ namespace WebAPI.Services.Services
 
                 _context.Accounts.Add(user);
                 await _context.SaveChangesAsync();
-                response.Message = "Account has been registered!";
             }
-            catch (Exception ex)
+            catch
             {
-                response.Message = ex.Message;
-                response.Status = false;
+                return false;
             }
 
-            return response;
+            return true;
         }
 
         public async Task<bool> UserExists(string username)
