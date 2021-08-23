@@ -9,11 +9,14 @@ import { HeaderComponent } from './components/header/header.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { LogonComponent } from './components/logon/logon.component';
+import { TasksComponent } from './components/tasks/tasks.component';
+import { TaskItemComponent } from './components/task-item/task-item.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent},
   { path: 'login', component: LoginComponent },
   { path: 'logon', component: LogonComponent },
+  { path: 'tasks', component: TasksComponent }
 ]
 
 @NgModule({
@@ -23,6 +26,8 @@ const appRoutes: Routes = [
     HomeComponent,
     LoginComponent,
     LogonComponent,
+    TasksComponent,
+    TaskItemComponent,
   ],
   imports: [
     BrowserModule,

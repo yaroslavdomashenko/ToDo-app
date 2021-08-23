@@ -1,0 +1,22 @@
+.task{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 50%;
+    padding: 0px 15px;
+    margin: 15px auto;
+    background-color: #FDF6F0;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.task:hover{
+    cursor: pointer;
+}
+
+.done{
+    border-left: solid 15px green;
+}
+
+.btn{
+    margin: 0 5px;
+}
