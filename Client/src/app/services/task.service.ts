@@ -6,7 +6,7 @@ import { Task } from '../Models/Task';
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
-    'Authorization': `Bearer ${localStorage.getItem("token")}`
+    'authorization': `Bearer ${localStorage.getItem("token")}`
   })
 }; 
 
@@ -20,7 +20,24 @@ export class TaskService {
 
   getTasks(): Observable<Task[]> {
     const url = `${this.apiUrl}/todo/tasks`;
+    console.log(httpOptions.headers);
     return this.http.get<Task[]>(url, httpOptions);
+  }
+
+  doneTask(id:number): Observable<Task>{
+    const url = `${this.apiUrl}/todo/change-status/${id}`;
+    return this.http.post<Task>(url, httpOptions);
+  }
+
+  createTask(text:string): Observable<Task>{
+    const url = `${this.apiUrl}/todo/create`;
+
+    const TaskModel = {
+      text: text
+    };
+
+    console.log(httpOptions.headers);
+    return this.http.post<Task>(url, TaskModel, httpOptions);
   }
 
 }

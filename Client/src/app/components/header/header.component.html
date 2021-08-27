@@ -2,7 +2,6 @@
     <a class="title-link" routerLink="">Simple to-do</a>
 
     <a *ngIf="isLoggined" class="btn btn-outline-light" routerLink="tasks">Tasks</a>
-    <a *ngIf="isLoggined" class="btn btn-outline-light" routerLink="settings">Settings</a>
     <a *ngIf="isLoggined" class="btn btn-outline-light" (click)="logOut()">Log out</a>
 
     <a *ngIf="!isLoggined" class="btn btn-outline-light" routerLink="login">Log in</a>

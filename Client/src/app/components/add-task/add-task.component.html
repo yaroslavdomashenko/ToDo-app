@@ -1,0 +1,10 @@
+<div class="add-task">
+    <form (ngSubmit)="createTask()">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Input your task here" name="text" [(ngModel)]="text">
+            <div class="input-group-append">
+              <button class="btn btn-success" type="submit">Create</button>
+            </div>
+          </div>
+    </form>
+</div>

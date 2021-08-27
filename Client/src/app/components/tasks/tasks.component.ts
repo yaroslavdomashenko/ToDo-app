@@ -16,11 +16,16 @@ export class TasksComponent implements OnInit {
     this.taskSevice.getTasks().subscribe((tasks) => this.tasks = tasks);
   }
 
-  doneTask(task:Task){
-    task.status = !task.status;
+  createTask(text:string): void{
+    this.taskSevice.createTask(text).subscribe((task) => this.tasks.push(task));
   }
 
-  deteleTask(task:Task){
+  doneTask(task:Task): void{
+    task.status = !task.status;
+    this.taskSevice.doneTask(task.id).subscribe();
+  }
+
+  deteleTask(task:Task): void{
     console.log(task);
   }
 

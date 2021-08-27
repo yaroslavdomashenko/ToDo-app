@@ -11,6 +11,7 @@ import { LoginComponent } from './components/login/login.component';
 import { LogonComponent } from './components/logon/logon.component';
 import { TasksComponent } from './components/tasks/tasks.component';
 import { TaskItemComponent } from './components/task-item/task-item.component';
+import { AddTaskComponent } from './components/add-task/add-task.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent},
@@ -28,6 +29,7 @@ const appRoutes: Routes = [
     LogonComponent,
     TasksComponent,
     TaskItemComponent,
+    AddTaskComponent,
   ],
   imports: [
     BrowserModule,

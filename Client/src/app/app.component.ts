@@ -12,7 +12,6 @@ export class AppComponent {
   ngOnInit() {
     if(localStorage.getItem("token") != null){
       global.isLoggined = true;
-      console.log(global.isLoggined);
     }
   }
 

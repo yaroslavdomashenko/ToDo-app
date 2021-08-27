@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebAPI.Data;
+using WebAPI.Data.DTO;
 using WebAPI.Data.Entities;
 using WebAPI.Services.Interfaces;
 
@@ -62,14 +63,14 @@ namespace WebAPI.Controllers
         /// <response code="201">Returns the new task</response>
         /// <response code="400">If user not found</response>
         [Authorize]
-        [HttpPost("create/")]
+        [HttpPost("create")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<TodoTask>> Create(string text)
+        public async Task<ActionResult<TodoTask>> Create(TaskModel task)
         {
-            if (text == null) return BadRequest();
+            if (task.Text == null) return BadRequest();
 
-            var createdTask = await _todoService.Create(User.Identity.Name, text);
+            var createdTask = await _todoService.Create(User.Identity.Name, task.Text);
             if (createdTask == null) return BadRequest();
 
             return Ok(createdTask);
@@ -83,12 +84,14 @@ namespace WebAPI.Controllers
         /// <response code="201">Returns the completed task</response>
         /// <response code="404">If task is not found</response>
         [Authorize]
-        [HttpPost("complete/{id}")]
+        [HttpPost("change-status/{id}")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ControllerResponse<TodoTask>>> Complete(int id)
+        public async Task<ActionResult<TodoTask>> Complete(int id)
         {
-            var task = await _todoService.Complete(User.Identity.Name, id);
+            if (id == null) return BadRequest();
+
+            var task = await _todoService.ChangeStatus(User.Identity.Name, id);
             if (task == null) 
                 return NotFound();
 

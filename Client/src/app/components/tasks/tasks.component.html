@@ -1,5 +1,9 @@
 <div class="wrapper">
 
+  <app-add-task
+    (onCreateTask)="createTask($event)"
+  ></app-add-task>
+
   <app-task-item
     *ngFor="let item of tasks"
     [task]="item"

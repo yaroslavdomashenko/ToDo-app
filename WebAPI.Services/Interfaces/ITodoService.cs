@@ -12,7 +12,7 @@ namespace WebAPI.Services.Interfaces
         Task<TodoTask> Get(string username, int id);
         Task<TodoTask> Create(string username, string text);
         Task<TodoTask> Delete(string username, int id);
-        Task<TodoTask> Complete(string username, int id);
+        Task<TodoTask> ChangeStatus(string username, int id);
         Task<TodoTask> Update(string username, int id, string text);
     }
 }

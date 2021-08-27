@@ -36,7 +36,7 @@ namespace WebAPI.Services.Services
             return list;
         }
 
-        public async Task<TodoTask> Complete(string username, int id)
+        public async Task<TodoTask> ChangeStatus(string username, int id)
         {
             var user = await _context.Accounts.FirstOrDefaultAsync(obj => obj.Username.Equals(username.ToLower()));
             var task = await _context.TodoTasks.FindAsync(id);
@@ -46,7 +46,7 @@ namespace WebAPI.Services.Services
 
             try
             {
-                task.Status = true;
+                task.Status = !task.Status;
                 await _context.SaveChangesAsync();
             }
             catch (Exception)
