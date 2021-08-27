@@ -13,7 +13,11 @@ export class TasksComponent implements OnInit {
   constructor(private taskSevice:TaskService) { }
 
   ngOnInit(): void {
-    this.taskSevice.getTasks().subscribe((tasks) => this.tasks = tasks);
+    this.taskSevice.getTasks().subscribe(
+      tasks => this.tasks = tasks, 
+      err => alert("Server error")
+    );
+    
   }
 
   createTask(text:string): void{
@@ -21,12 +25,25 @@ export class TasksComponent implements OnInit {
   }
 
   doneTask(task:Task): void{
-    task.status = !task.status;
-    this.taskSevice.doneTask(task.id).subscribe();
+    this.taskSevice.doneTask(task.id).subscribe(
+      () => task.status = !task.status
+    );
   }
 
   deteleTask(task:Task): void{
-    console.log(task);
+    this.taskSevice.deleteTask(task.id).subscribe(
+      () => this.tasks = this.tasks.filter(x => x.id != task.id)
+    );
+  }
+
+  updateTask(task:Task, newText:string): void{
+    this.taskSevice.updateTask(task.id, newText).subscribe( (updatedTask) => this.ChangeText(updatedTask));
+  }
+
+  private ChangeText(updatedTask:Task){
+    this.tasks.forEach(task => {
+      if(task.id == updatedTask.id) task.text = updatedTask.text;
+    })
   }
 
 }

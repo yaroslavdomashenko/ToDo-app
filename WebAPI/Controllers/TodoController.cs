@@ -79,19 +79,16 @@ namespace WebAPI.Controllers
         /// <summary>
         /// Returns completed task
         /// </summary>
-        /// <param name="id"></param>
         /// <returns></returns>
         /// <response code="201">Returns the completed task</response>
         /// <response code="404">If task is not found</response>
         [Authorize]
-        [HttpPost("change-status/{id}")]
+        [HttpPost("change-status")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<TodoTask>> Complete(int id)
+        public async Task<ActionResult<TodoTask>> Complete(ChangeModel model)
         {
-            if (id == null) return BadRequest();
-
-            var task = await _todoService.ChangeStatus(User.Identity.Name, id);
+            var task = await _todoService.ChangeStatus(User.Identity.Name, model.Id);
             if (task == null) 
                 return NotFound();
 
@@ -101,18 +98,16 @@ namespace WebAPI.Controllers
         /// <summary>
         /// Returns updated task
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="task"></param>
         /// <returns></returns>
         /// <response code="201">Returns the updated task</response>
         /// <response code="404">If task is not found</response>
         [Authorize]
-        [HttpPut("update/{id}")]
+        [HttpPut("update")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<TodoTask>> Update(int id, string text)
+        public async Task<ActionResult<TodoTask>> Update(TaskUpdateModel model)
         {
-            var task = await _todoService.Update(User.Identity.Name, id, text);
+            var task = await _todoService.Update(User.Identity.Name, model.Id, model.Text);
             if (task == null) 
                 return NotFound();
 

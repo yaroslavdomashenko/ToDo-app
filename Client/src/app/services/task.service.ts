@@ -6,7 +6,7 @@ import { Task } from '../Models/Task';
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
-    'authorization': `Bearer ${localStorage.getItem("token")}`
+    'Authorization': `Bearer ${localStorage.getItem("token")}`
   })
 }; 
 
@@ -20,13 +20,15 @@ export class TaskService {
 
   getTasks(): Observable<Task[]> {
     const url = `${this.apiUrl}/todo/tasks`;
-    console.log(httpOptions.headers);
     return this.http.get<Task[]>(url, httpOptions);
   }
 
   doneTask(id:number): Observable<Task>{
-    const url = `${this.apiUrl}/todo/change-status/${id}`;
-    return this.http.post<Task>(url, httpOptions);
+    const url = `${this.apiUrl}/todo/change-status`;
+    const ChangeModel = {
+      id: id
+    };
+    return this.http.post<Task>(url, ChangeModel, httpOptions);
   }
 
   createTask(text:string): Observable<Task>{
@@ -35,9 +37,21 @@ export class TaskService {
     const TaskModel = {
       text: text
     };
-
-    console.log(httpOptions.headers);
     return this.http.post<Task>(url, TaskModel, httpOptions);
+  }
+
+  deleteTask(id:number): Observable<Task>{
+    const url = `${this.apiUrl}/todo/delete/${id}`;
+    return this.http.delete<Task>(url, httpOptions);
+  }
+
+  updateTask(id:number, text:string){
+    const url = `${this.apiUrl}/todo/update`;
+    const TaskUpdateModel = {
+      id: id,
+      text: text
+    };
+    return this.http.put<Task>(url, TaskUpdateModel, httpOptions);
   }
 
 }
